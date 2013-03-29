@@ -20,7 +20,19 @@ describe("wildcard matching", function() {
     router.match("-a -b <num> *", callback);
     router.process("-a -b 5 -c -d");
     assert(callback.called);
-    assert.equal(1, Object.keys(callback.args[0][0]).length);
-    assert.equal(5, callback.args[0][0].num)
+    var args = callback.args[0][0];
+    assert.equal(5, args.num)
+    assert(args.a);
+    assert(args.c);
+    assert(args.d);
+  });
+
+  it("passes in params that were in wildcard", function() {
+    router.match("-a *", callback);
+    router.process("-a -b 5");
+    assert(callback.called);
+    var args = callback.args[0][0];
+    assert.equal(5, args.b);
+    assert(true, args.a);
   });
 });

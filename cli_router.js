@@ -90,13 +90,19 @@ var router = {
     return true;
   },
   getParams: function(user, match) {
+    match = utils.removeKeyFromObject(match, "WILDCARD");
     var res = {};
     for(var key in user) {
       if(match[key] === true) {
-        continue;
-      }
-      if(match[key]) {
-        res[match[key]] = user[key];
+        res[key.replace("-", "")] = true;
+      } else {
+        if(match[key]) {
+          res[match[key]] = user[key];
+        } else {
+          if(key.indexOf("-") > -1) {
+            res[key.replace("-", "")] = user[key];
+          }
+        }
       }
     };
 

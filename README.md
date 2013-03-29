@@ -118,6 +118,7 @@ router.match("some string", function() {}, this);
 - Optional Parameters
 - Make it detect `-abc` as `-a -b -c`
 - Fully document API (for now, the source and tests are pretty self documenting)
+- Wilcards. Eg `*` for anything, or something like `-a *` to mean as long as `-a` is passed as a flag.
 
 ## Changelog
 

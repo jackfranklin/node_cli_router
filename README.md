@@ -2,6 +2,8 @@
 
 ## Version 0.1.0
 
+[![Build Status](https://travis-ci.org/jackfranklin/node_cli_router.png?branch=master)](https://travis-ci.org/jackfranklin/node_cli_router)
+
 I build a lot of Node CLI tools and one of the things I've always wanted is a small router for user arguments.
 
 I build a lot of websites using Sinatra and I love how in Sinatra you can route URLs to functions easily. I decided to take a go at doing something similar for command line flags and arguments for CLI tools.

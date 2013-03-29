@@ -1,6 +1,6 @@
 # Node CLI Router
 
-## Version 0.0.1
+## Version 0.1.0
 
 I build a lot of Node CLI tools and one of the things I've always wanted is a small router for user arguments.
 
@@ -55,15 +55,34 @@ $ foo -a -b 5
 $ foo -b 5 -a
 ```
 
-And in the callback, `params.num === "5"`.
+And in the callback, `params.num === "5"` and `params.a === true`.
+
+The callback takes one argument, containing the parameters the user passed in. For example:
+
+With this route:
+
+```js
+router.match(["-a", ["-b", "num], "-c"], function(params) {});
+```
+
+Here's how the params object will look for each of these calls:
+```
+$ foo -a -b -5 -c
+{
+  a: true,
+  b: "5",
+  c: true
+}
 
 ### String Matching Syntax
-If you don't like the array syntax, you can match with strings too. These two matches are equivalent, and would both set `params.num` in the callback function:
+If you don't like the array syntax, you can match with strings too. These two matches are equivalent:
 
 ```js
 router.match(["-a", ["-b", "num"]], function(params) {...});
 router.match("-a -b <num>", function(params) {...});
 ```
+
+The same parameters are passed into the function.
 
 Of course, ordering doesn't matter. So all four of these are identical in terms of what they match:
 
@@ -106,6 +125,44 @@ If you care about the context in which the callback function is called, you can 
 router.match("some string", function() {}, this);
 ```
 
+## Wildcards
+
+You can use `*` in your routes to denote wildcards. For example:
+
+```js
+//string syntax
+router.match("-a -b *", function() {});
+//array syntax
+router.match(["-a", "-b", "*"], function() {});
+```
+
+Will match:
+
+```
+$ foo -a -b -c -d -e
+$ foo -b -a -c 5
+```
+
+The wildcard matching passes all the passed in arguments to the callback. Example:
+
+```
+$ foo -a -b -c 5
+
+// the object passed into the callback:
+{
+  a: true,
+  b: true,
+  c: "5"
+}
+```
+
+
+Note that you must define the wildcard __last in the match string/array__. This will not work:
+
+```js
+route.match("-a * -b", function() {});
+```
+
 ## Contributing
 
 - Fork the repository
@@ -120,6 +177,10 @@ router.match("some string", function() {}, this);
 - Fully document API (for now, the source and tests are pretty self documenting)
 
 ## Changelog
+
+__v0.1.0__
+- wildcard support
+- improve parameter passing
 
 __v0.0.1__
 - initial release!

@@ -72,9 +72,6 @@ var router = {
           return false;
         }
       }
-
-      return true;
-
     } else {
       matchArg = utils.removeKeyFromObject(matchArg, "WILDCARD");
       if(Object.keys(userArg).length !== Object.keys(matchArg).length) {
@@ -89,9 +86,8 @@ var router = {
           return false;
         }
       };
-      return true;
     }
-
+    return true;
   },
   getParams: function(user, match) {
     var res = {};
@@ -99,7 +95,9 @@ var router = {
       if(match[key] === true) {
         continue;
       }
-      res[match[key]] = user[key];
+      if(match[key]) {
+        res[match[key]] = user[key];
+      }
     };
 
     return res;
@@ -123,6 +121,9 @@ var router = {
   go: function(argsAry) {
     var processed = this.processArgv(argsAry);
     this.process(processed);
+  },
+  clear: function() {
+    this.matches = [];
   }
 };
 

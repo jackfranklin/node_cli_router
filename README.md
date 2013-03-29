@@ -23,6 +23,8 @@ var router = require("cli_router");
 
 ## Examples
 
+If you'd like to see an actual module that uses this, check my [Github Opener Module](https://github.com/jackfranklin/github_opener).
+
 ### Array Matching Syntax
 Say we have a CLI tool which is run on the command line by running `foo`. We can match on arguments like so:
 

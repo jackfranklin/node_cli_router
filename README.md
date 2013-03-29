@@ -10,8 +10,13 @@ I build a lot of websites using Sinatra and I love how in Sinatra you can route 
 ## Installation
 
 ```
-npm install -g cli_router
+npm install cli_router
 ```
+
+In your scripts:
+
+```
+var router = require("cli_router");
 
 ## Examples
 

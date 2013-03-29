@@ -15,8 +15,9 @@ npm install cli_router
 
 In your scripts:
 
-```
+```js
 var router = require("cli_router");
+```
 
 ## Examples
 

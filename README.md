@@ -170,6 +170,8 @@ route.match("-a * -b", function() {});
 - Clone it down
 - `npm install`
 - `npm test`
+- Push to your repository.
+- Make a pull request.
 
 
 ## Todo

@@ -73,6 +73,7 @@ $ foo -a -b -5 -c
   b: "5",
   c: true
 }
+```
 
 ### String Matching Syntax
 If you don't like the array syntax, you can match with strings too. These two matches are equivalent:
@@ -175,7 +176,6 @@ route.match("-a * -b", function() {});
 - Optional Parameters
 - Make it detect `-abc` as `-a -b -c`
 - Fully document API (for now, the source and tests are pretty self documenting)
-- Wilcards. Eg `*` for anything, or something like `-a *` to mean as long as `-a` is passed as a flag.
 
 ## Changelog
 

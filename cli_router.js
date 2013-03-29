@@ -2,6 +2,16 @@ var utils = require("./utils.js");
 
 var router = {
   matches: [],
+  beforeFunc: function() {},
+  afterFunc: function() {},
+  before: function(fn) {
+    this.beforeFunc = fn;
+    return this;
+  },
+  after: function(fn) {
+    this.afterFunc = fn;
+    return this;
+  },
   processMatch: function(args) {
     var res = { WILDCARD: false }
     if(args.route instanceof Array) {
@@ -44,6 +54,7 @@ var router = {
   },
   match: function(match, callback, context) {
     this.matches.push({ route: match, cb: callback, context: context });
+    return this;
   },
   processArgString: function(str) {
     var res = {}
@@ -121,10 +132,13 @@ var router = {
       var doMatch = this.argsEqual(argString, argMatch);
       if(doMatch) {
         var params = this.getParams(argString, argMatch);
+        this.beforeFunc();
         item.cb.call(item.context || this, params);
+        this.afterFunc();
         return true;
       }
     }
+    return false;
   },
   processArgv: function(argv) {
     return argv.slice(2).join(" ");
@@ -135,6 +149,7 @@ var router = {
   },
   clear: function() {
     this.matches = [];
+    return this;
   }
 };
 

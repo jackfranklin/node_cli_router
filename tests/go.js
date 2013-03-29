@@ -1,8 +1,10 @@
 var assert = require("assert");
-
+var sinon = require("sinon");
 var router = require("../cli_router.js");
 
 var fakeArgs = ["node", "/users/jackf/fake.js", "-a", "5", "-b"];
+
+router.clear();
 
 describe("processing the argv array", function() {
   it("removes first two and joins into string", function() {
@@ -13,17 +15,15 @@ describe("processing the argv array", function() {
 
 
 describe("processing raw process.argv", function() {
-  var called = false;
+  var callback;
   beforeEach(function() {
-    router.match([["-a", "num"], "-b"], function(params) {
-      called = true;
-      assert("5", params.num);
-    });
-
+    callback = sinon.spy();
+    router.clear();
   });
   it("processes and matches correctly", function() {
+    router.match([["-a", "num"], "-b"], callback);
     router.go(fakeArgs);
-    assert(called);
+    assert(callback.called);
   });
 });
 

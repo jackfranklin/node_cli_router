@@ -180,6 +180,7 @@ route.match("-a * -b", function() {});
 - Optional Parameters
 - Make it detect `-abc` as `-a -b -c`
 - Fully document API (for now, the source and tests are pretty self documenting)
+- Add a way to run a method before or after a route callback is executed.
 
 ## Changelog
 

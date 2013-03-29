@@ -1,7 +1,7 @@
 var router = {
   matches: [],
   processMatch: function(args) {
-    var res = {}
+    var res = { WILDCARD: false }
     if(args.route instanceof Array) {
       args.route.forEach(function(item) {
         if(item instanceof Array) {
@@ -11,7 +11,12 @@ var router = {
         }
       });
     } else {
-      var split = args.route.split("-")
+      var str = args.route;
+      if(str.indexOf("*") > -1) {
+        str = str.split("*")[0];
+        res.WILDCARD = true;
+      }
+      var split = str.split("-")
         .filter(function(item) { return !!item; })
         .map(function(item) {
           return item.trim();
@@ -53,21 +58,47 @@ var router = {
     });
     return res;
   },
-  argsEqual: function(userArg, matchArg) {
-    if(Object.keys(userArg).length !== Object.keys(matchArg).length) {
-      return false;
+  removeKeyFromObject: function(obj, keyToRemove) {
+    var newObj = {}
+    for(var key in obj) {
+      if(key !== keyToRemove) {
+        newObj[key] = obj[key];
+      }
     }
-    for(var key in userArg) {
-      if(matchArg[key]) {
-        if(typeof matchArg[key] !== typeof userArg[key]) {
+    return newObj;
+  },
+  argsEqual: function(userArg, matchArg) {
+    if(matchArg.WILDCARD === true) {
+      matchArg = this.removeKeyFromObject(matchArg, "WILDCARD");
+      for(var key in matchArg) {
+        if(userArg[key]){
+          if(typeof matchArg[key] !== typeof userArg[key]) {
+            return false;
+          }
+        } else {
           return false;
         }
-      } else {
+      }
+
+      return true;
+
+    } else {
+      matchArg = this.removeKeyFromObject(matchArg, "WILDCARD");
+      if(Object.keys(userArg).length !== Object.keys(matchArg).length) {
         return false;
       }
-    };
+      for(var key in userArg) {
+        if(matchArg[key]) {
+          if(typeof matchArg[key] !== typeof userArg[key]) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      };
+      return true;
+    }
 
-    return true;
   },
   getParams: function(user, match) {
     var res = {};

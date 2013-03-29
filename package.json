@@ -1,6 +1,6 @@
 {
   "name": "cli_router",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A router for parsing command line arguments.",
   "main": "cli_router.js",
   "repository": "git@github.com:jackfranklin/node_cli_router.git",

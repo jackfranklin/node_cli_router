@@ -1,6 +1,6 @@
 # Node CLI Router
 
-## Version 0.1.0
+## Version 0.2.0
 
 [![Build Status](https://travis-ci.org/jackfranklin/node_cli_router.png?branch=master)](https://travis-ci.org/jackfranklin/node_cli_router)
 
@@ -12,7 +12,7 @@ I build a lot of websites using Sinatra and I love how in Sinatra you can route 
 ## Installation
 
 ```
-npm install cli_router
+npm install --save cli_router
 ```
 
 In your scripts:
@@ -166,6 +166,33 @@ Note that you must define the wildcard __last in the match string/array__. This 
 route.match("-a * -b", function() {});
 ```
 
+## Before and After
+Often there will be code you want to execute before or after a route callback method. Just use the `before` and `after` methods to add this:
+
+```js
+var callback1 = function() {...};
+var callback2 = function() {...};
+router.before(callback1);
+router.add(callback2);
+```
+
+## Chaining
+
+You can chain some methods:
+
+```js
+router.clear().match("*", callback).before(function() {}).after(function() {}).go(process.argv);
+```
+
+## Clearing
+
+If you ever need to clear out all matches, you can:
+
+```js
+router.clear()
+```
+
+
 ## Contributing
 
 - Fork the repository
@@ -182,6 +209,10 @@ route.match("-a * -b", function() {});
 - Fully document API (for now, the source and tests are pretty self documenting)
 
 ## Changelog
+
+__v0.2.0__
+- added `before` and `after`
+- made `match`, `before`, `after`, `clear` chainable
 
 __v0.1.0__
 - wildcard support

@@ -10,6 +10,9 @@
     "mocha": "~1.8.2",
     "sinon": "~1.6.0"
   },
+  "engines": {
+    "node": ">=0.8.22"
+  },
   "scripts": {
     "test": "mocha tests/"
   }

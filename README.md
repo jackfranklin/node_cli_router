@@ -113,4 +113,9 @@ router.match("some string", function() {}, this);
 - Make it detect `-abc` as `-a -b -c`
 - Fully document API (for now, the source and tests are pretty self documenting)
 
+## Changelog
+
+__v0.0.1__
+- initial release!
+
 

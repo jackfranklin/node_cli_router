@@ -35,4 +35,13 @@ describe("wildcard matching", function() {
     assert.equal(5, args.b);
     assert(true, args.a);
   });
+
+  it("works for array arguments", function() {
+    router.match(["-a", "*"], callback);
+    router.process("-a -b 5");
+    assert(callback.called);
+    var args = callback.args[0][0];
+    assert.equal(5, args.b);
+    assert(true, args.a);
+  });
 });

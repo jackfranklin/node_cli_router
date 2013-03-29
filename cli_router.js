@@ -5,7 +5,12 @@ var router = {
   processMatch: function(args) {
     var res = { WILDCARD: false }
     if(args.route instanceof Array) {
-      args.route.forEach(function(item) {
+      var route = args.route;
+      if(route.indexOf("*") > -1) {
+        route.splice(route.indexOf("*"));
+        res.WILDCARD = true;
+      }
+      route.forEach(function(item) {
         if(item instanceof Array) {
           res[item[0]] = item[1];
         } else {

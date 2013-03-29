@@ -1,3 +1,5 @@
+var utils = require("./utils.js");
+
 var router = {
   matches: [],
   processMatch: function(args) {
@@ -58,18 +60,9 @@ var router = {
     });
     return res;
   },
-  removeKeyFromObject: function(obj, keyToRemove) {
-    var newObj = {}
-    for(var key in obj) {
-      if(key !== keyToRemove) {
-        newObj[key] = obj[key];
-      }
-    }
-    return newObj;
-  },
   argsEqual: function(userArg, matchArg) {
     if(matchArg.WILDCARD === true) {
-      matchArg = this.removeKeyFromObject(matchArg, "WILDCARD");
+      matchArg = utils.removeKeyFromObject(matchArg, "WILDCARD");
       for(var key in matchArg) {
         if(userArg[key]){
           if(typeof matchArg[key] !== typeof userArg[key]) {
@@ -83,7 +76,7 @@ var router = {
       return true;
 
     } else {
-      matchArg = this.removeKeyFromObject(matchArg, "WILDCARD");
+      matchArg = utils.removeKeyFromObject(matchArg, "WILDCARD");
       if(Object.keys(userArg).length !== Object.keys(matchArg).length) {
         return false;
       }

@@ -175,7 +175,7 @@ Often there will be code you want to execute before or after a route callback me
 var callback1 = function() {...};
 var callback2 = function() {...};
 router.before(callback1);
-router.add(callback2);
+router.after(callback2);
 ```
 
 ## Chaining

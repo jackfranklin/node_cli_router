@@ -66,7 +66,7 @@ The callback takes one argument, containing the parameters the user passed in. F
 With this route:
 
 ```js
-router.match(["-a", ["-b", "num], "-c"], function(params) {});
+router.match(["-a", ["-b", "num"], "-c"], function(params) {});
 ```
 
 Here's how the params object will look for each of these calls:
@@ -175,7 +175,7 @@ Often there will be code you want to execute before or after a route callback me
 var callback1 = function() {...};
 var callback2 = function() {...};
 router.before(callback1);
-router.add(callback2);
+router.after(callback2);
 ```
 
 ## Chaining

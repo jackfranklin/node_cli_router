@@ -9,4 +9,11 @@ describe("joined flags", function() {
     router.process("-abc");
     assert(callback.called);
   });
+
+  it("can parse them on the router side", function() {
+    var callback = sinon.spy();
+    router.clear().match("-abc", callback);
+    router.process("-a -b -c");
+    assert(callback.called);
+  });
 });

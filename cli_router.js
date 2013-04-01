@@ -32,8 +32,15 @@ var router = {
       .filter(function(item) { return !!item; })
       .map(function(item) {
         return item.trim();
+      })
+      .map(function(item) {
+        if(item.length > 1 && item.indexOf(" ") === -1) {
+          return item.split("");
+        } else {
+          return item;
+        }
       });
-    split.forEach(function(item) {
+    _.flatten(split).forEach(function(item) {
       if(item.indexOf(" ") > -1) {
         var arrayArg = item.split(" ");
         var params = arrayArg.splice(1).join(" ");
@@ -57,9 +64,16 @@ var router = {
       .filter(function(item) { return !!item; })
       .map(function(item) {
         return item.trim();
+      })
+      .map(function(item) {
+        if(item.length > 1 && item.indexOf(" ") === -1) {
+          return item.split("");
+        } else {
+          return item;
+        }
       });
 
-    split.forEach(function(item) {
+    _.flatten(split).forEach(function(item) {
       if(item.indexOf(" ") > -1) {
         var arrayArg = item.split(" ");
         var params = arrayArg.splice(1)

@@ -1,4 +1,5 @@
 var utils = require("./utils.js");
+var _ = require("underscore");
 
 var router = {
   matches: [],
@@ -14,42 +15,31 @@ var router = {
   },
   processMatch: function(args) {
     var res = { WILDCARD: false }
+    var str = args.route;
     if(args.route instanceof Array) {
-      var route = args.route;
-      if(route.indexOf("*") > -1) {
-        route.splice(route.indexOf("*"));
-        res.WILDCARD = true;
-      }
-      route.forEach(function(item) {
-        if(item instanceof Array) {
-          res[item[0]] = item[1];
-        } else {
-          res[item] = true;
-        }
-      });
-    } else {
-      var str = args.route;
-      if(str.indexOf("*") > -1) {
-        str = str.split("*")[0];
-        res.WILDCARD = true;
-      }
-      var split = str.split("-")
-        .filter(function(item) { return !!item; })
-        .map(function(item) {
-          return item.trim();
-        });
-      split.forEach(function(item) {
-        if(item.indexOf(" ") > -1) {
-          var arrayArg = item.split(" ");
-          var params = arrayArg.splice(1).join(" ");
-          params = params.replace(/<|>/g, "");
-          var flag = arrayArg[0];
-          res["-" + flag] = params;
-        } else {
-          res["-" + item] = true;
-        }
-      });
+      str = _.flatten(args.route).join(" ");
     }
+    if(str.indexOf("*") > -1) {
+      str = str.split("*")[0];
+      res.WILDCARD = true;
+    }
+    var split = str.split("-")
+      .filter(function(item) { return !!item; })
+      .map(function(item) {
+        return item.trim();
+      });
+    split.forEach(function(item) {
+      if(item.indexOf(" ") > -1) {
+        var arrayArg = item.split(" ");
+        var params = arrayArg.splice(1).join(" ");
+        params = params.replace(/<|>/g, "");
+        var flag = arrayArg[0];
+        res["-" + flag] = params;
+      } else {
+        res["-" + item] = true;
+      }
+    });
+
     return res;
   },
   match: function(match, callback, context) {

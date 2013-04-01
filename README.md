@@ -1,6 +1,6 @@
 # Node CLI Router
 
-## Version 0.2.0
+## Version 0.3.0
 
 [![Build Status](https://travis-ci.org/jackfranklin/node_cli_router.png?branch=master)](https://travis-ci.org/jackfranklin/node_cli_router)
 
@@ -25,7 +25,7 @@ var router = require("cli_router");
 
 If you'd like to see an actual module that uses this, check my [Github Opener Module](https://github.com/jackfranklin/github_opener).
 
-### Array Matching Syntax
+## Array Matching Syntax
 Say we have a CLI tool which is run on the command line by running `foo`. We can match on arguments like so:
 
 ```js
@@ -79,7 +79,7 @@ $ foo -a -b -5 -c
 }
 ```
 
-### String Matching Syntax
+## String Matching Syntax
 If you don't like the array syntax, you can match with strings too. These two matches are equivalent:
 
 ```js
@@ -98,7 +98,7 @@ Of course, ordering doesn't matter. So all four of these are identical in terms 
 "-b <num> -a"
 ```
 
-### Multiple Routes
+## Multiple Routes
 When a user string is matched by more than one defined route, __the first route__ will take affect. For example:
 
 ```js
@@ -107,6 +107,37 @@ router.match("-b -a <num>", function(){});
 ```
 
 When `$ foo -a 5 -b` is run, the first route will be used, because it was defined first.
+
+## Joined up Arguments
+The router is able to split arguments up, allowing your users to enter them joined. For example, with this match:
+
+```js
+router.match("-a -b -c", function() {});
+```
+
+All of these will be matched:
+
+```
+$ foo -abc
+$ foo -bca
+$ foo -a -b -c
+```
+
+In fact, you can even used joined up arguments in your `match` calls:
+
+```js
+router.match("-abc", function() {});
+```
+
+Which will match all of:
+
+```
+$ foo -abc
+$ foo -b -a -c
+$ foo -bca
+$ foo -a -b -c
+... and so on
+```
 
 ## Other Arguments
 Some tools might take it one main argument and then allow flags to be set. For example:
@@ -180,6 +211,15 @@ router.after(callback2);
 
 __These methods are only called if a route was matched__. They are __not__ called if no route was matched.
 
+## Else
+You can define a method to run __if and only if__ no routes are matched.
+
+```js
+router.else(function() {
+  console.log("Sorry, you didn't enter the right arguments!");
+});
+```
+
 ## Chaining
 
 You can chain some methods:
@@ -209,11 +249,14 @@ router.clear()
 
 ## Todo
 - Optional Parameters
-- Make it detect `-abc` as `-a -b -c`
 - Fully document API (for now, the source and tests are pretty self documenting)
-- Add a way to run a method before or after a route callback is executed.
+- Tidy up some of the shared code across methods
 
 ## Changelog
+
+__v0.3.0__
+- added `else`
+- support for `-abc` as `-a -b -c`
 
 __v0.2.0__
 - added `before` and `after`

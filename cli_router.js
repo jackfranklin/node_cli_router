@@ -59,7 +59,9 @@ var router = {
     return this;
   },
   processArgString: function(str) {
-    var res = {}
+    var res = {};
+    // TODO: a lot of this code is shared in the processMatch method above
+    // extract this into utils
     var split = str.split("-")
       .filter(function(item) { return !!item; })
       .map(function(item) {

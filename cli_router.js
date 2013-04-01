@@ -5,12 +5,17 @@ var router = {
   matches: [],
   beforeFunc: function() {},
   afterFunc: function() {},
+  elseFunc: function() {},
   before: function(fn) {
     this.beforeFunc = fn;
     return this;
   },
   after: function(fn) {
     this.afterFunc = fn;
+    return this;
+  },
+  else: function(fn) {
+    this.elseFunc = fn;
     return this;
   },
   processMatch: function(args) {
@@ -95,6 +100,7 @@ var router = {
     }
     return true;
   },
+  // forms the params object that's passed into a route callback
   getParams: function(user, match) {
     match = utils.removeKeyFromObject(match, "WILDCARD");
     var res = {};
@@ -114,6 +120,7 @@ var router = {
 
     return res;
   },
+  // processes the input from the user
   process: function(str) {
     var argString = this.processArgString(str);
     for(var i = 0; i < router.matches.length; i++) {
@@ -128,6 +135,7 @@ var router = {
         return true;
       }
     }
+    this.elseFunc();
     return false;
   },
   processArgv: function(argv) {

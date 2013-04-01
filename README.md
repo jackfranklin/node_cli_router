@@ -178,6 +178,8 @@ router.before(callback1);
 router.after(callback2);
 ```
 
+__These methods are only called if a route was matched__. They are __not__ called if no route was matched.
+
 ## Chaining
 
 You can chain some methods:
